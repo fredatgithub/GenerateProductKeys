@@ -1,6 +1,6 @@
 ﻿/*
 The MIT License(MIT)
-Copyright(c) 2015 fred
+Copyright(c) 2015 Freddy Juhel
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
@@ -58,6 +58,8 @@ namespace GenerateProductKeys
       GetWindowValue();
       progressBarGeneration.Visible = false;
       labelCountKeys.Text += " 0";
+      labelDuration.Text = "Duration : 0";
+      labelDuration2.Text = "(hour: minute:second: millisecond)";
     }
 
     private void GetWindowValue()
@@ -87,16 +89,18 @@ namespace GenerateProductKeys
       // Format key generated AZAZ1-AZAZ9-AZAZA-AZAZ9-12346
       listBoxKeys.Items.Clear();
       labelCountKeys.Text = "Count: " + listBoxKeys.Items.Count + " items";
-      labelDuration.Text = "Duration (hour: minute:second: millisecond): 0";
+      labelDuration.Text = "Duration : 0";
+      labelDuration2.Text = "(hour: minute:second: millisecond)";
       Application.DoEvents();
       progressBarGeneration.Visible = true;
-      int NumberOfkeys;
+      int numberOfkeys;
       try
       {
-        Int32.TryParse(textBoxNumberOfKeys.Text, out NumberOfkeys);
-        if (NumberOfkeys == 0)
+        Int32.TryParse(textBoxNumberOfKeys.Text, out numberOfkeys);
+        if (numberOfkeys == 0)
         {
-          DisplayMessageBox("The value is a number greater than int32.MaxValue", "Value too big", MessageBoxButtons.OK, MessageBoxIcon.Error);
+          string message = string.Format("The value is a number greater than {0:n0}", Int32.MaxValue);
+          DisplayMessageBox(message , "Value too big", MessageBoxButtons.OK, MessageBoxIcon.Error);
           return; 
         }
       }
@@ -104,13 +108,13 @@ namespace GenerateProductKeys
       {                
       }
 
-      if (!Int32.TryParse(textBoxNumberOfKeys.Text, out NumberOfkeys))
+      if (!Int32.TryParse(textBoxNumberOfKeys.Text, out numberOfkeys))
       {
         MessageBox.Show("The number of keys to be generated must be a number");
         return;
       }
 
-      if (NumberOfkeys < 0)
+      if (numberOfkeys < 0)
       {
         DisplayMessageBox("The number of keys to be generated must greater than 0\n\nPlease type in a positive integer.",
           "Number of keys greater than zero", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -119,11 +123,11 @@ namespace GenerateProductKeys
       }
 
       progressBarGeneration.Minimum = 1;
-      progressBarGeneration.Maximum = NumberOfkeys;
+      progressBarGeneration.Maximum = numberOfkeys;
       progressBarGeneration.Value = progressBarGeneration.Minimum;
       Stopwatch chrono = new Stopwatch();
       chrono.Start();
-      for (int i = 1; i <= NumberOfkeys; i++)
+      for (int i = 1; i <= numberOfkeys; i++)
       {
         listBoxKeys.Items.Add(GenerateNewKey());
         progressBarGeneration.Value = i;
@@ -131,7 +135,7 @@ namespace GenerateProductKeys
 
       chrono.Stop();
       labelCountKeys.Text = "Count: " + listBoxKeys.Items.Count + " items";
-      labelDuration.Text = "Duration (hour: minute:second: millisecond): " + chrono.Elapsed;
+      labelDuration.Text = "Duration : " + chrono.Elapsed;
       progressBarGeneration.Value = 1;
       progressBarGeneration.Visible = false;
     }
@@ -143,7 +147,7 @@ namespace GenerateProductKeys
       for (char letter = 'A'; letter <= 'Z'; letter++)
       {
         alphabet.Add(letter.ToString());
-        numbers.Add(((int)letter) - 64);
+        numbers.Add(letter - 64);
       }
 
       for (int number = 1; number <= 9; number++)
