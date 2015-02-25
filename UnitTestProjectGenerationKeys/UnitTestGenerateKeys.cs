@@ -137,6 +137,15 @@ namespace UnitTestProjectGenerationKeys
         Assert.IsTrue(result >= 1 && result <= 100);
       }
 
+      //for (int i = 1; i < 254; i++)
+      //{
+      //  result = GenerateProductKeys.FormMain.GenerateRandomNumberUsingCrypto(i, i);
+      //  Assert.IsTrue(result == i);
+      //}
+
+      result = GenerateProductKeys.FormMain.GenerateRandomNumberUsingCrypto(1, 1);
+      Assert.IsTrue(result == 1);
+
       //for (int i = 2; i < 254; i++)
       //{
       //  result = GenerateProductKeys.FormMain.GenerateRandomNumberUsingCrypto(1, i);
@@ -156,7 +165,10 @@ namespace UnitTestProjectGenerationKeys
 
       result = GenerateProductKeys.FormMain.GenerateRandomNumberUsingCrypto(1, 20);
       Assert.IsFalse(result > 20);
-      
+
+      result = GenerateProductKeys.FormMain.GenerateRandomNumberUsingCrypto(10, 20);
+      Assert.IsFalse(result < 10);
+
       result = GenerateProductKeys.FormMain.GenerateRandomNumberUsingCrypto(1, 255);
       Assert.IsTrue(result == 0);
     }

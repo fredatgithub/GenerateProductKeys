@@ -188,6 +188,7 @@ namespace GenerateProductKeys
         crypto.GetBytes(randomNumber);
         result = randomNumber[0];
       } while (result <= min || result >= max);
+
       return result;
     }
 
