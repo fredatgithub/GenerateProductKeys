@@ -40,7 +40,7 @@ namespace UnitTestProjectGenerationKeys
           result = true;
         }
       }
-      
+
       Assert.IsTrue(result);
 
       key = GenerateProductKeys.FormMain.GenerateNewKey();
@@ -53,7 +53,7 @@ namespace UnitTestProjectGenerationKeys
       Assert.IsTrue(CountLetters(key) + CountNumbers(key) == 25);
     }
 
-    private int CountSpecialCharacter(string key, char myChar)
+    private static int CountSpecialCharacter(string key, char myChar)
     {
       int result = 0;
       foreach (char item in key)
@@ -65,6 +65,11 @@ namespace UnitTestProjectGenerationKeys
       }
 
       return result;
+    }
+
+    private static int CountSpecialCharacterWithLinq(string key, char myChar)
+    {
+      return key.Count(item => item == myChar);
     }
 
     private int CountLetters(string myString)
@@ -85,13 +90,13 @@ namespace UnitTestProjectGenerationKeys
       return result;
     }
 
-    private bool IsLetter(char mychar)
+    private static bool IsLetter(char mychar)
     {
       Regex pattern = new Regex(@"[A-Z]");
       return pattern.Match(mychar.ToString()).Success;
     }
 
-    private int CountNumbers(string myString)
+    private static int CountNumbers(string myString)
     {
       int result = 0;
       if (!string.IsNullOrWhiteSpace(myString))
@@ -114,11 +119,12 @@ namespace UnitTestProjectGenerationKeys
       return pattern.Match(myString).Success;
     }
 
-    private bool HasDigit(char myChar)
+    private static bool HasDigit(char myChar)
     {
       Regex pattern = new Regex(@"^\d+$");
       return pattern.Match(myChar.ToString()).Success;
     }
+
     public static bool AreAllCharactersTheSame(string s)
     {
       return s.Length == 0 || s.All(ch => ch == s[0]);
@@ -126,32 +132,52 @@ namespace UnitTestProjectGenerationKeys
 
 
     [TestMethod]
-    public void TestMethodGenerateRandomNumberUsingCrypto()
+    public void TestMethodGenerateRandomNumberUsingCrypto_in_between()
     {
       int result = GenerateProductKeys.FormMain.GenerateRandomNumberUsingCrypto(1, 10);
       Assert.IsTrue(result >= 1 && result <= 10);
+    }
 
+    [TestMethod]
+    public void TestMethodGenerateRandomNumberUsingCrypto_25_generations_in_between()
+    {
       for (int i = 0; i < 25; i++)
       {
-        result = GenerateProductKeys.FormMain.GenerateRandomNumberUsingCrypto(1, 100);
+        int result = GenerateProductKeys.FormMain.GenerateRandomNumberUsingCrypto(1, 100);
         Assert.IsTrue(result >= 1 && result <= 100);
       }
+    }
 
+    [TestMethod]
+    public void TestMethodGenerateRandomNumberUsingCrypto_all_254_numbers_are_generated()
+    {
       //for (int i = 1; i < 254; i++)
       //{
-      //  result = GenerateProductKeys.FormMain.GenerateRandomNumberUsingCrypto(i, i);
+      //  int result = GenerateProductKeys.FormMain.GenerateRandomNumberUsingCrypto(i, i);
       //  Assert.IsTrue(result == i);
       //}
+    }
 
-      result = GenerateProductKeys.FormMain.GenerateRandomNumberUsingCrypto(1, 1);
-      Assert.IsTrue(result == 1);
+    [TestMethod]
+    public void TestMethodGenerateRandomNumberUsingCrypto_generation_of_number_one()
+    {
+      //int result = GenerateProductKeys.FormMain.GenerateRandomNumberUsingCrypto(1, 1);
+      //Assert.IsTrue(result == 1);
+    }
 
+    [TestMethod]
+    public void TestMethodGenerateRandomNumberUsingCrypto_generation_all_numbers_are_inferior_to_254()
+    {
       //for (int i = 2; i < 254; i++)
       //{
       //  result = GenerateProductKeys.FormMain.GenerateRandomNumberUsingCrypto(1, i);
       //  Assert.IsTrue(result >= 1 && result <= i);
       //}
+    }
 
+    [TestMethod]
+    public void TestMethodGenerateRandomNumberUsingCrypto_one_million_generation_to_get_a_number_two()
+    {
       //bool find = false;
       //for (int i = 1; i < 1000000; i++) // no value 2 in 1 million generations
       //{
@@ -162,14 +188,26 @@ namespace UnitTestProjectGenerationKeys
 
       //  Assert.IsTrue(find);
       //}
+    }
 
-      result = GenerateProductKeys.FormMain.GenerateRandomNumberUsingCrypto(1, 20);
+    [TestMethod]
+    public void TestMethodGenerateRandomNumberUsingCrypto_not_above_twenty()
+    {
+      int result = GenerateProductKeys.FormMain.GenerateRandomNumberUsingCrypto(1, 20);
       Assert.IsFalse(result > 20);
+    }
 
-      result = GenerateProductKeys.FormMain.GenerateRandomNumberUsingCrypto(10, 20);
+    [TestMethod]
+    public void TestMethodGenerateRandomNumberUsingCrypto_false_under_minimum()
+    {
+      int result = GenerateProductKeys.FormMain.GenerateRandomNumberUsingCrypto(10, 20);
       Assert.IsFalse(result < 10);
+    }
 
-      result = GenerateProductKeys.FormMain.GenerateRandomNumberUsingCrypto(1, 255);
+    [TestMethod]
+    public void TestMethodGenerateRandomNumberUsingCrypto_zero_above_255()
+    {
+      int result = GenerateProductKeys.FormMain.GenerateRandomNumberUsingCrypto(1, 255);
       Assert.IsTrue(result == 0);
     }
   }
