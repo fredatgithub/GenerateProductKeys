@@ -223,8 +223,7 @@ namespace UnitTestProjectGenerationKeys
     [TestMethod]
     public void TestMethodGenerateCharacters_with_one_character()
     {
-      List<string> source = new List<string>();
-      source.Add("a");
+      List<string> source = new List<string> {"a"};
       string result = GenerateProductKeys.FormMain.GenerateCharacters(source, 1);
       Assert.AreEqual(result, "a");
     }
@@ -232,8 +231,7 @@ namespace UnitTestProjectGenerationKeys
     [TestMethod]
     public void TestMethodGenerateCharacters_with_two_characters()
     {
-      List<string> source = new List<string>();
-      source.Add("a");
+      List<string> source = new List<string> {"a"};
       string result = GenerateProductKeys.FormMain.GenerateCharacters(source, 2);
       Assert.AreEqual(result, "aa");
     }
@@ -241,8 +239,7 @@ namespace UnitTestProjectGenerationKeys
     [TestMethod]
     public void TestMethodGenerateCharacters_for_length_of_four()
     {
-      List<string> source = new List<string>();
-      source.Add("azerty");
+      List<string> source = new List<string> {"azerty"};
       string result = GenerateProductKeys.FormMain.GenerateCharacters(source, 4);
       Assert.IsTrue(result.Length == "azerty".Length * 4);
     }
@@ -250,8 +247,7 @@ namespace UnitTestProjectGenerationKeys
     [TestMethod]
     public void TestMethodGenerateCharacters_for_length_of_ten()
     {
-      List<string> source = new List<string>();
-      source.Add("azerty");
+      List<string> source = new List<string> {"azerty"};
       string result = GenerateProductKeys.FormMain.GenerateCharacters(source, 10);
       Assert.IsTrue(result.Length == "azerty".Length * 10);
     }
@@ -259,8 +255,7 @@ namespace UnitTestProjectGenerationKeys
     [TestMethod]
     public void TestMethodGenerateCharacters_for_length_of_twenty()
     {
-      List<string> source = new List<string>();
-      source.Add("a");
+      List<string> source = new List<string> {"a"};
       string result = GenerateProductKeys.FormMain.GenerateCharacters(source, 20);
       Assert.IsTrue(result.Length == 20);
     }
