@@ -18,6 +18,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -209,6 +210,72 @@ namespace UnitTestProjectGenerationKeys
     {
       int result = GenerateProductKeys.FormMain.GenerateRandomNumberUsingCrypto(1, 255);
       Assert.IsTrue(result == 0);
+    }
+
+    [TestMethod]
+    public void TestMethodGenerateCharacters_with_empty_source()
+    {
+      List<string> source = new List<string>();
+      string result = GenerateProductKeys.FormMain.GenerateCharacters(source, 1);
+      Assert.AreEqual(result, string.Empty);
+    }
+
+    [TestMethod]
+    public void TestMethodGenerateCharacters_with_one_character()
+    {
+      List<string> source = new List<string>();
+      source.Add("a");
+      string result = GenerateProductKeys.FormMain.GenerateCharacters(source, 1);
+      Assert.AreEqual(result, "a");
+    }
+
+    [TestMethod]
+    public void TestMethodGenerateCharacters_with_two_characters()
+    {
+      List<string> source = new List<string>();
+      source.Add("a");
+      string result = GenerateProductKeys.FormMain.GenerateCharacters(source, 2);
+      Assert.AreEqual(result, "aa");
+    }
+
+    [TestMethod]
+    public void TestMethodGenerateCharacters_for_length_of_four()
+    {
+      List<string> source = new List<string>();
+      source.Add("azerty");
+      string result = GenerateProductKeys.FormMain.GenerateCharacters(source, 4);
+      Assert.IsTrue(result.Length == "azerty".Length * 4);
+    }
+
+    [TestMethod]
+    public void TestMethodGenerateCharacters_for_length_of_ten()
+    {
+      List<string> source = new List<string>();
+      source.Add("azerty");
+      string result = GenerateProductKeys.FormMain.GenerateCharacters(source, 10);
+      Assert.IsTrue(result.Length == "azerty".Length * 10);
+    }
+
+    [TestMethod]
+    public void TestMethodGenerateCharacters_for_length_of_twenty()
+    {
+      List<string> source = new List<string>();
+      source.Add("a");
+      string result = GenerateProductKeys.FormMain.GenerateCharacters(source, 20);
+      Assert.IsTrue(result.Length == 20);
+    }
+
+    [TestMethod]
+    public void TestMethodGenerateCharacters_for_length_of_fifty()
+    {
+      List<string> source = new List<string>();
+      for (int i = 0; i < 10; i++)
+      {
+        source.Add(i.ToString());
+      }
+      
+      string result = GenerateProductKeys.FormMain.GenerateCharacters(source, 50);
+      Assert.IsTrue(result.Length == 50);
     }
   }
 }

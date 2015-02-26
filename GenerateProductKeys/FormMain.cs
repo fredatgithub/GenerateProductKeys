@@ -151,7 +151,6 @@ namespace GenerateProductKeys
       for (char letter = 'A'; letter <= 'Z'; letter++)
       {
         alphabet.Add(letter.ToString());
-        numbers.Add(letter - 64);
       }
 
       for (int number = 1; number <= 9; number++)
@@ -169,16 +168,28 @@ namespace GenerateProductKeys
       string newString = string.Empty;
       for (int j = 0; j < 5; j++)
       {
-        for (int i = 0; i < 5; i++)
-        {
-          newString += sourceCharacters[GenerateRandomNumberUsingCrypto(0, 26 + 9)];
-        }
-
+        newString += GenerateCharacters(sourceCharacters, 5);
         newString += "-";
       }
 
       newString = newString.Substring(0, newString.Length - 1);
       return newString;
+    }
+
+    public static string GenerateCharacters(List<string> source, int numberOfCharacters = 1)
+    {
+      if (source == null || source.Count == 0)
+      {
+        return string.Empty;
+      }
+
+      string result = string.Empty;
+      for (int i = 0; i < numberOfCharacters; i++)
+      {
+        result += source[GenerateRandomNumberUsingCrypto(0, source.Count - 1)];
+      }
+
+      return result;
     }
 
     public static int GenerateRandomNumberUsingCrypto(int min, int max)
@@ -195,7 +206,7 @@ namespace GenerateProductKeys
       {
         crypto.GetBytes(randomNumber);
         result = randomNumber[0];
-      } while (result <= min || result >= max);
+      } while (result < min || result > max); // while it is not true meaning outside the wanted range
 
       return result;
     }
