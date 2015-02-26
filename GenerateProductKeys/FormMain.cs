@@ -58,8 +58,13 @@ namespace GenerateProductKeys
       GetWindowValue();
       progressBarGeneration.Visible = false;
       labelCountKeys.Text += " 0";
+      DisplayLabelduration();
+    }
+
+    private void DisplayLabelduration()
+    {
       labelDuration.Text = "Duration : 0";
-      labelDuration2.Text = "(hour: minute:second: millisecond)";
+      labelDuration2.Text = "(hour: minute: second: millisecond)";
     }
 
     private void GetWindowValue()
@@ -89,8 +94,7 @@ namespace GenerateProductKeys
       // Format key generated AZAZ1-AZAZ9-AZAZA-AZAZ9-12346
       listBoxKeys.Items.Clear();
       labelCountKeys.Text = "Count: " + listBoxKeys.Items.Count + " items";
-      labelDuration.Text = "Duration : 0";
-      labelDuration2.Text = "(hour: minute:second: millisecond)";
+      DisplayLabelduration();
       Application.DoEvents();
       progressBarGeneration.Visible = true;
       int numberOfkeys;

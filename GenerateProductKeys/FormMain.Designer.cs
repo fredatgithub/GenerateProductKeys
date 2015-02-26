@@ -355,16 +355,16 @@
       this.labelCountKeys.Name = "labelCountKeys";
       this.labelCountKeys.Size = new System.Drawing.Size(49, 17);
       this.labelCountKeys.TabIndex = 4;
-      this.labelCountKeys.Text = "Count;";
+      this.labelCountKeys.Text = "Count:";
       // 
       // labelDuration
       // 
       this.labelDuration.AutoSize = true;
-      this.labelDuration.Location = new System.Drawing.Point(39, 558);
+      this.labelDuration.Location = new System.Drawing.Point(39, 545);
       this.labelDuration.Name = "labelDuration";
       this.labelDuration.Size = new System.Drawing.Size(66, 17);
       this.labelDuration.TabIndex = 5;
-      this.labelDuration.Text = "Duration;";
+      this.labelDuration.Text = "Duration:";
       // 
       // progressBarGeneration
       // 
@@ -380,16 +380,16 @@
       this.labelNumberOfKeys.AutoSize = true;
       this.labelNumberOfKeys.Location = new System.Drawing.Point(33, 55);
       this.labelNumberOfKeys.Name = "labelNumberOfKeys";
-      this.labelNumberOfKeys.Size = new System.Drawing.Size(111, 17);
+      this.labelNumberOfKeys.Size = new System.Drawing.Size(216, 17);
       this.labelNumberOfKeys.TabIndex = 7;
-      this.labelNumberOfKeys.Text = "Number of keys;";
+      this.labelNumberOfKeys.Text = "Number of keys to be generated;";
       // 
       // textBoxNumberOfKeys
       // 
-      this.textBoxNumberOfKeys.Location = new System.Drawing.Point(151, 52);
+      this.textBoxNumberOfKeys.Location = new System.Drawing.Point(249, 52);
       this.textBoxNumberOfKeys.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
       this.textBoxNumberOfKeys.Name = "textBoxNumberOfKeys";
-      this.textBoxNumberOfKeys.Size = new System.Drawing.Size(147, 22);
+      this.textBoxNumberOfKeys.Size = new System.Drawing.Size(62, 22);
       this.textBoxNumberOfKeys.TabIndex = 8;
       this.textBoxNumberOfKeys.Text = "20";
       // 
@@ -407,11 +407,11 @@
       // labelDuration2
       // 
       this.labelDuration2.AutoSize = true;
-      this.labelDuration2.Location = new System.Drawing.Point(39, 586);
+      this.labelDuration2.Location = new System.Drawing.Point(39, 567);
       this.labelDuration2.Name = "labelDuration2";
-      this.labelDuration2.Size = new System.Drawing.Size(18, 17);
+      this.labelDuration2.Size = new System.Drawing.Size(138, 17);
       this.labelDuration2.TabIndex = 10;
-      this.labelDuration2.Text = "D";
+      this.labelDuration2.Text = "Duration explanation";
       // 
       // FormMain
       // 
