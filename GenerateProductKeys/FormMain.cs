@@ -24,6 +24,9 @@ using System.Windows.Forms;
 using GenerateProductKeys.Properties;
 using System.Security.Cryptography;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Xml.Linq;
 
 namespace GenerateProductKeys
 {
@@ -33,6 +36,10 @@ namespace GenerateProductKeys
     {
       InitializeComponent();
     }
+
+    readonly Dictionary<string, string> _languageDicoEn = new Dictionary<string, string>();
+    readonly Dictionary<string, string> _languageDicoFr = new Dictionary<string, string>();
+    private string _currentLanguage = "english";
 
     private void QuitToolStripMenuItem_Click(object sender, EventArgs e)
     {
@@ -59,12 +66,32 @@ namespace GenerateProductKeys
       progressBarGeneration.Visible = false;
       labelCountKeys.Text += " 0";
       DisplayLabelduration();
+      LoadLanguages();
+      SetLanguage(Settings.Default.LastLanguageUsed);
     }
 
     private void DisplayLabelduration()
     {
-      labelDuration.Text = "Duration : 0";
+      labelDuration.Text = Translate("Duration") + " : 0";
       labelDuration2.Text = "(hour: minute: second: millisecond)";
+    }
+
+    private string Translate(string index) // could add (string index, string _currentLanguage = "english")
+    {
+      string result = string.Empty;
+      switch (_currentLanguage.ToLower())
+      {
+        case "english":
+          result = _languageDicoEn.ContainsKey(index) ? _languageDicoEn[index] :
+           "the term: \"" + index + "\" has not been translated yet.\nPlease tell the developer to translate this term";
+          break;
+        case "french":
+          result = _languageDicoFr.ContainsKey(index) ? _languageDicoFr[index] :
+            "the term: \"" + index + "\" has not been translated yet.\nPlease tell the developer to translate this term";
+          break;
+      }
+
+      return result;
     }
 
     private void GetWindowValue()
@@ -81,6 +108,7 @@ namespace GenerateProductKeys
       Settings.Default.WindowWidth = Width;
       Settings.Default.WindowLeft = Left;
       Settings.Default.WindowTop = Top;
+      Settings.Default.LastLanguageUsed = frenchToolStripMenuItem.Checked ? "French" : "English";
       Settings.Default.Save();
     }
 
@@ -139,7 +167,7 @@ namespace GenerateProductKeys
 
       chrono.Stop();
       labelCountKeys.Text = "Count: " + listBoxKeys.Items.Count + " items";
-      labelDuration.Text = "Duration : " + chrono.Elapsed;
+      labelDuration.Text = "Duration: " + chrono.Elapsed;
       progressBarGeneration.Value = 1;
       progressBarGeneration.Visible = false;
     }
@@ -232,9 +260,152 @@ namespace GenerateProductKeys
       }
     }
 
-    private void DisplayMessageBox(string message, string title = "", MessageBoxButtons button = MessageBoxButtons.OK, MessageBoxIcon icon = MessageBoxIcon.None)
+    private static void DisplayMessageBox(string message, string title = "", MessageBoxButtons button = MessageBoxButtons.OK, MessageBoxIcon icon = MessageBoxIcon.None)
     {
       MessageBox.Show(message, title, button, icon);
+    }
+
+    private void frenchToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      SetLanguage(Language.French.ToString());
+    }
+
+    private void englishToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      SetLanguage(Language.English.ToString());
+    }
+
+    private void SetLanguage(string myLanguage)
+    {
+      switch (myLanguage)
+      {
+        case "English":
+          frenchToolStripMenuItem.Checked = false;
+          englishToolStripMenuItem.Checked = true;
+          fileToolStripMenuItem.Text = _languageDicoEn["MenuFile"];
+          newToolStripMenuItem.Text = _languageDicoEn["MenuFileNew"];
+          openToolStripMenuItem.Text = _languageDicoEn["MenuFileOpen"];
+          saveToolStripMenuItem.Text = _languageDicoEn["MenuFileSave"];
+          saveasToolStripMenuItem.Text = _languageDicoEn["MenuFileSaveAs"];
+          printPreviewToolStripMenuItem.Text = _languageDicoEn["MenuFilePrint"];
+          printPreviewToolStripMenuItem.Text = _languageDicoEn["MenufilePageSetup"];
+          quitToolStripMenuItem.Text = _languageDicoEn["MenufileQuit"];
+          editToolStripMenuItem.Text = _languageDicoEn["MenuEdit"];
+          cancelToolStripMenuItem.Text = _languageDicoEn["MenuEditCancel"];
+          redoToolStripMenuItem.Text = _languageDicoEn["MenuEditRedo"];
+          cutToolStripMenuItem.Text = _languageDicoEn["MenuEditCut"];
+          copyToolStripMenuItem.Text = _languageDicoEn["MenuEditCopy"];
+          pasteToolStripMenuItem.Text = _languageDicoEn["MenuEditPaste"];
+          selectAllToolStripMenuItem.Text = _languageDicoEn["MenuEditSelectAll"];
+          toolsToolStripMenuItem.Text = _languageDicoEn["MenuTools"];
+          personalizeToolStripMenuItem.Text = _languageDicoEn["MenuToolsCustomize"];
+          optionsToolStripMenuItem.Text = _languageDicoEn["MenuToolsOptions"];
+          languagetoolStripMenuItem.Text = _languageDicoEn["MenuLanguage"];
+          englishToolStripMenuItem.Text = _languageDicoEn["MenuLanguageEnglish"];
+          frenchToolStripMenuItem.Text = _languageDicoEn["MenuLanguageFrench"];
+          helpToolStripMenuItem.Text = _languageDicoEn["MenuHelp"];
+          summaryToolStripMenuItem.Text = _languageDicoEn["MenuHelpSummary"];
+          indexToolStripMenuItem.Text = _languageDicoEn["MenuHelpIndex"];
+          searchToolStripMenuItem.Text = _languageDicoEn["MenuHelpSearch"];
+          aboutToolStripMenuItem.Text = _languageDicoEn["MenuHelpAbout"];
+
+          break;
+        case "French":
+          frenchToolStripMenuItem.Checked = true;
+          englishToolStripMenuItem.Checked = false;
+          fileToolStripMenuItem.Text = _languageDicoFr["MenuFile"];
+          newToolStripMenuItem.Text = _languageDicoFr["MenuFileNew"];
+          openToolStripMenuItem.Text = _languageDicoFr["MenuFileOpen"];
+          saveToolStripMenuItem.Text = _languageDicoFr["MenuFileSave"];
+          saveasToolStripMenuItem.Text = _languageDicoFr["MenuFileSaveAs"];
+          printPreviewToolStripMenuItem.Text = _languageDicoFr["MenuFilePrint"];
+          printPreviewToolStripMenuItem.Text = _languageDicoFr["MenufilePageSetup"];
+          quitToolStripMenuItem.Text = _languageDicoFr["MenufileQuit"];
+          editToolStripMenuItem.Text = _languageDicoFr["MenuEdit"];
+          cancelToolStripMenuItem.Text = _languageDicoFr["MenuEditCancel"];
+          redoToolStripMenuItem.Text = _languageDicoFr["MenuEditRedo"];
+          cutToolStripMenuItem.Text = _languageDicoFr["MenuEditCut"];
+          copyToolStripMenuItem.Text = _languageDicoFr["MenuEditCopy"];
+          pasteToolStripMenuItem.Text = _languageDicoFr["MenuEditPaste"];
+          selectAllToolStripMenuItem.Text = _languageDicoFr["MenuEditSelectAll"];
+          toolsToolStripMenuItem.Text = _languageDicoFr["MenuTools"];
+          personalizeToolStripMenuItem.Text = _languageDicoFr["MenuToolsCustomize"];
+          optionsToolStripMenuItem.Text = _languageDicoFr["MenuToolsOptions"];
+          languagetoolStripMenuItem.Text = _languageDicoFr["MenuLanguage"];
+          englishToolStripMenuItem.Text = _languageDicoFr["MenuLanguageEnglish"];
+          frenchToolStripMenuItem.Text = _languageDicoFr["MenuLanguageFrench"];
+          helpToolStripMenuItem.Text = _languageDicoFr["MenuHelp"];
+          summaryToolStripMenuItem.Text = _languageDicoFr["MenuHelpSummary"];
+          indexToolStripMenuItem.Text = _languageDicoFr["MenuHelpIndex"];
+          searchToolStripMenuItem.Text = _languageDicoFr["MenuHelpSearch"];
+          aboutToolStripMenuItem.Text = _languageDicoFr["MenuHelpAbout"];
+
+          break;
+
+      }
+    }
+
+    public enum Language
+    {
+      French,
+      English
+    }
+
+    private void LoadLanguages()
+    {
+      if (!File.Exists(Settings.Default.LanguageFileName))
+      {
+        CreateLanguageFile();
+      }
+
+      // read the translation file and feed the language
+      XDocument xDoc = XDocument.Load(Settings.Default.LanguageFileName);
+      var result = from node in xDoc.Descendants("term")
+                   where node.HasElements
+                   let xElementName = node.Element("name")
+                   where xElementName != null
+                   let xElementEnglish = node.Element("englishValue")
+                   where xElementEnglish != null
+                   let xElementFrench = node.Element("frenchValue")
+                   where xElementFrench != null
+                   select new
+                   {
+                     name = xElementName.Value,
+                     englishValue = xElementEnglish.Value,
+                     frenchValue = xElementFrench.Value
+                   };
+      foreach (var i in result)
+      {
+        _languageDicoEn.Add(i.name, i.englishValue);
+        _languageDicoFr.Add(i.name, i.frenchValue);
+      }
+    }
+
+    private static void CreateLanguageFile()
+    {
+      List<string> minimumVersion = new List<string>
+      {
+        "<?xml version=\"1.0\" encoding=\"utf - 8\" ?>",
+        "<Document>",
+        "<DocumentVersion>",
+        "<version> 1.0 </version>",
+        "</DocumentVersion>",
+        "<terms>",
+         "<term>",
+        "<name>MenuFile</name>",
+        "<englishValue>File</englishValue>",
+        "<frenchValue>Fichier</frenchValue>",
+        "</term>",
+        "  </terms>",
+        "</Document>"
+      };
+      StreamWriter sw = new StreamWriter(Settings.Default.LanguageFileName);
+      foreach (string item in minimumVersion)
+      {
+        sw.WriteLine(item);
+      }
+
+      sw.Close();
     }
   }
 }
