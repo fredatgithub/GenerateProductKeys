@@ -21,6 +21,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using GenerateProductKeys;
 
 namespace UnitTestProjectGenerationKeys
 {
@@ -272,5 +273,115 @@ namespace UnitTestProjectGenerationKeys
       string result = GenerateProductKeys.FormMain.GenerateCharacters(source, 50);
       Assert.IsTrue(result.Length == 50);
     }
+    #region Tabulate
+    [TestMethod]
+    public void TestMethod_Tabulate_value_0()
+    {
+      const ushort source = 0;
+      const string expected = "";
+      string result = Punctuation.Tabulate(source);
+      Assert.AreEqual(result, expected);
+    }
+
+    [TestMethod]
+    public void TestMethod_Tabulate_value_1()
+    {
+      const string expected = " ";
+      string result = Punctuation.Tabulate();
+      Assert.AreEqual(result, expected);
+    }
+
+    [TestMethod]
+    public void TestMethod_Tabulate_value_2()
+    {
+      const ushort source = 2;
+      const string expected = "  ";
+      string result = Punctuation.Tabulate(source);
+      Assert.AreEqual(result, expected);
+    }
+
+    [TestMethod]
+    public void TestMethod_Tabulate_value_3()
+    {
+      const ushort source = 3;
+      const string expected = "   ";
+      string result = Punctuation.Tabulate(source);
+      Assert.AreEqual(result, expected);
+    }
+
+    [TestMethod]
+    public void TestMethod_Tabulate_value_4()
+    {
+      const ushort source = 4;
+      const string expected = "    ";
+      string result = Punctuation.Tabulate(source);
+      Assert.AreEqual(result, expected);
+    }
+
+    [TestMethod]
+    public void TestMethod_Tabulate_value_5()
+    {
+      const ushort source = 5;
+      const string expected = "     ";
+      string result = Punctuation.Tabulate(source);
+      Assert.AreEqual(result, expected);
+    }
+
+    [TestMethod]
+    public void TestMethod_Tabulate_value_6()
+    {
+      const ushort source = 6;
+      const string expected = "      ";
+      string result = Punctuation.Tabulate(source);
+      Assert.AreEqual(result, expected);
+    }
+
+    [TestMethod]
+    public void TestMethod_Tabulate_value_7()
+    {
+      const ushort source = 7;
+      const string expected = "       ";
+      string result = Punctuation.Tabulate(source);
+      Assert.AreEqual(result, expected);
+    }
+
+    [TestMethod]
+    public void TestMethod_Tabulate_value_8()
+    {
+      const ushort source = 8;
+      const string expected = "        ";
+      string result = Punctuation.Tabulate(source);
+      Assert.AreEqual(result, expected);
+    }
+
+    [TestMethod]
+    public void TestMethod_Tabulate_value_9()
+    {
+      const ushort source = 9;
+      const string expected = "         ";
+      string result = Punctuation.Tabulate(source);
+      Assert.AreEqual(result, expected);
+    }
+
+    [TestMethod]
+    public void TestMethod_Tabulate_value_10()
+    {
+      const ushort source = 10;
+      const string expected = "          ";
+      string result = Punctuation.Tabulate(source);
+      Assert.AreEqual(result, expected);
+    }
+
+    [TestMethod]
+    public void TestMethod_Tabulate_value_11()
+    {
+      const ushort source = 11;
+      const string expected = "           ";
+      string result = Punctuation.Tabulate(source);
+      Assert.AreEqual(result, expected);
+    }
+
+    #endregion Tabulate
+
   }
 }
